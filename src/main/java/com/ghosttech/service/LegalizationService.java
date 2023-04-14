@@ -1,0 +1,60 @@
+package com.ghosttech.service;
+
+import com.ghosttech.dto.LegalizationRequest;
+import com.ghosttech.model.Legalization;
+import com.ghosttech.model.LegalizationDoc;
+import com.ghosttech.repository.LegalizationDocRepository;
+import com.ghosttech.repository.LegalizationRepository;
+import com.ghosttech.utils.FileManager;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.util.UUID;
+
+@Service
+@AllArgsConstructor
+@Slf4j
+public class LegalizationService {
+    private final LegalizationDocRepository legalizationDocRepository;
+    private final LegalizationRepository legalizationRepository;
+
+    public void addLegalization(LegalizationRequest legalizationRequest) {
+        log.info("starting create legalization.......");
+
+        //TODO: check if user
+        UUID legalizationId = UUID.randomUUID();
+
+        var legalization = Legalization.builder()
+                .id(legalizationId)
+                .isLegalized(true)
+                .motif(legalizationRequest.getMotif())
+                .receipMoment(legalizationRequest.getReceipMoment())
+                .userId(legalizationRequest.getUserId())
+                .date(Instant.now())
+                .build();
+
+       int insertLegalizationId = legalizationRepository.insertLegalization(legalization);
+       if(insertLegalizationId != 1) throw new IllegalStateException("something went wrong when legalization was insert");
+
+       legalizationRequest.getLegalizationDocs().forEach(request -> {
+
+           FileManager.base64ToFileAndSaveToDirectory(request.getFileUrl(),request.getFileName());
+
+           var legalizationdoc = LegalizationDoc.builder()
+                   .id(UUID.randomUUID())
+                   .designation(request.getDesignation())
+                   .quantity(request.getQuantity())
+                   .fileUrl(request.getFileName())
+                   .legalization_id(legalizationId)
+                   .build();
+
+           int insertLegalizationDocId = legalizationDocRepository.insertLegalizationDoc(legalizationdoc);
+           if(insertLegalizationDocId != 1) throw new IllegalStateException("something went wrong when legalizationDoc was insert");
+
+       });
+
+        log.info("create legalization is done....");
+    }
+}

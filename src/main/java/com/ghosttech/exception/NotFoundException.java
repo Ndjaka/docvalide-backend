@@ -1,11 +1,16 @@
 package com.ghosttech.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND)
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 public class NotFoundException extends RuntimeException {
-    public NotFoundException(String message) {
+    private String errorCode;
+    public NotFoundException(String message,String errorCode) {
         super(message);
+        this.errorCode = errorCode;
     }
 }

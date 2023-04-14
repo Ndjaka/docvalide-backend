@@ -17,7 +17,7 @@ public class UserService {
     public User addUser(UserRequest userRequest)  {
 
         Boolean isUserExit = userDao.checkifUserExist(userRequest);
-        if(isUserExit) throw new NotFoundException(String.format("User %s is already exist", userRequest.getFirstname()));
+        if(isUserExit) throw new NotFoundException(String.format("User %s is already exist", userRequest.getFirstname()),"USER_NOT_FOUND");
 
         var user = User.builder()
                 .id(UUID.randomUUID())

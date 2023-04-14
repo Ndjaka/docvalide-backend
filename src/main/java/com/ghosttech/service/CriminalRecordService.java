@@ -1,8 +1,8 @@
 package com.ghosttech.service;
 
 import com.ghosttech.dao.CriminalRecordExtractDao;
-import com.ghosttech.dto.CriminalRecordExtractResponse;
 import com.ghosttech.dto.CriminalRecordExtractRequest;
+import com.ghosttech.dto.CriminalRecordExtractResponse;
 import com.ghosttech.mapper.CriminalRecordDTOMapper;
 import com.ghosttech.model.CriminalRecordExtract;
 import com.ghosttech.model.FileUrls;
@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Path;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -27,15 +26,12 @@ public class CriminalRecordService {
      * @param criminalRecordRequest - data who are comming of the client is the object who represent criminalRecord
      * @return CriminalRecordExtractResponse - response who is returning of the client to confirm creating data in database
      */
-    public CriminalRecordExtractResponse addCriminalRecord(CriminalRecordExtractRequest criminalRecordRequest){
+    public CriminalRecordExtractResponse addCriminalRecord(CriminalRecordExtractRequest criminalRecordRequest)  {
 
         log.info("start creating criminal record...");
 
         String FrontFileName = "Front-" + criminalRecordRequest.getFileUrl().getFileName();
         String BackFileName = "Back-"+criminalRecordRequest.getFileUrl().getFileName();
-
-        Path pathFrontFile = FileManager. convertBase64ToFile( criminalRecordRequest.getFileUrl().getFrontUrl(), FrontFileName);
-        Path pathBackFile = FileManager.convertBase64ToFile(criminalRecordRequest.getFileUrl().getBackUrl(), BackFileName);
 
         var criminalRecord = CriminalRecordExtract.builder()
                 .id(UUID.randomUUID())
@@ -50,8 +46,8 @@ public class CriminalRecordService {
                         .build())
                 .build();
 
-        FileManager.addFileToDirectory(pathFrontFile);
-        FileManager.addFileToDirectory(pathBackFile);
+        FileManager.base64ToFileAndSaveToDirectory( criminalRecordRequest.getFileUrl().getFrontUrl(), FrontFileName);
+        FileManager.base64ToFileAndSaveToDirectory(criminalRecordRequest.getFileUrl().getBackUrl(), BackFileName);
 
         int result = extractDao.insertCriminalRecordExtract(criminalRecord);
         if(result != 1) throw  new IllegalStateException("oops something wrong");
