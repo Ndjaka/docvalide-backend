@@ -12,16 +12,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 
+import static com.ghosttech.constants.Directory.DOCUMENTS_DIRECTORY;
+
 @Data
 @AllArgsConstructor
 @Slf4j
 @Component
 public class FileManager {
 
-    private final static String FILE_DIRECTORY = "documents";
-
     /**
-     * Converts a base64 string to a file and saves it in a specified directory.
+     * Converts a base64 string to a file and saves it in a specified Directory.
      *
      * @param fileToBase64 The base64 string to convert to a file.
      * @param fileName     The name of the file to be saved.
@@ -33,7 +33,7 @@ public class FileManager {
         try {
             byte[] data = Base64.getDecoder().decode(fileToBase64);
 
-            Path file = Paths.get(System.getProperty("user.dir") + "/" +FILE_DIRECTORY+ "/" + fileName);
+            Path file = Paths.get(System.getProperty("user.dir") + "/" +DOCUMENTS_DIRECTORY+ "/" + fileName);
             Files.write(file, data);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class FileManager {
     public static String getFile(String fileName) {
 
         return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/" + FILE_DIRECTORY + "/")
+                .path("/" + DOCUMENTS_DIRECTORY + "/")
                 .path(fileName)
                 .toUriString();
     }

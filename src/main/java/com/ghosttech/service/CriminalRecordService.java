@@ -22,7 +22,7 @@ public class CriminalRecordService {
     private final CriminalRecordDTOMapper criminalRecordDTOMapper;
 
     /**
-     * Create the files, add criminalRecordExtract in database and add these files in directory of the documents
+     * Create the files, add criminalRecordExtract in database and add these files in Directory of the documents
      * @param criminalRecordRequest - data who are comming of the client is the object who represent criminalRecord
      * @return CriminalRecordExtractResponse - response who is returning of the client to confirm creating data in database
      */
