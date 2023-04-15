@@ -29,6 +29,7 @@ public class LegalizationRepository implements LegalizationDao {
 
         return jdbcTemplate.update(
                 sql,
+                legalization.getId(),
                 legalization.getMotif(),
                 legalization.getReceipMoment(),
                 legalization.isLegalized(),

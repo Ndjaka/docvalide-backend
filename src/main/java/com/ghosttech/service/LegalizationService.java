@@ -9,6 +9,7 @@ import com.ghosttech.utils.FileManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class LegalizationService {
     private final LegalizationDocRepository legalizationDocRepository;
     private final LegalizationRepository legalizationRepository;
 
+    @Transactional
     public void addLegalization(LegalizationRequest legalizationRequest) {
         log.info("starting create legalization.......");
 
@@ -28,7 +30,7 @@ public class LegalizationService {
 
         var legalization = Legalization.builder()
                 .id(legalizationId)
-                .isLegalized(true)
+                .isLegalized(false)
                 .motif(legalizationRequest.getMotif())
                 .receipMoment(legalizationRequest.getReceipMoment())
                 .userId(legalizationRequest.getUserId())

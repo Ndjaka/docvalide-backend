@@ -33,10 +33,11 @@ public class FileManager {
         try {
             byte[] data = Base64.getDecoder().decode(fileToBase64);
 
-            Path file = Paths.get("/" + FILE_DIRECTORY + "/", fileName);
+            Path file = Paths.get(System.getProperty("user.dir") + "/" +FILE_DIRECTORY+ "/" + fileName);
             Files.write(file, data);
         } catch (Exception e) {
             e.printStackTrace();
+            e.getCause();
             throw  new RuntimeException(String.format("This error [%s] during the creation of file",e.getMessage()));
         }
     }
@@ -44,7 +45,7 @@ public class FileManager {
     public static String getFile(String fileName) {
 
         return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/" + "documents" + "/")
+                .path("/" + FILE_DIRECTORY + "/")
                 .path(fileName)
                 .toUriString();
     }

@@ -1,5 +1,7 @@
 package com.ghosttech.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +13,13 @@ import java.util.UUID;
 @Setter
 @Getter
 public class LegalizationRequest {
-
+    @NotBlank(message = "motivation can not be blank")
+    @NotNull(message = "motivation can not be null")
     private String motif;
+
+    @NotBlank(message = "receipt moment is required")
+    @NotNull(message = "receipt can not be null")
     private String receipMoment;
-    private boolean isLegalized;
     private UUID userId;
     List<LegalizationDocRequest> legalizationDocs;
 

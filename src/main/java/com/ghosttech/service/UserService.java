@@ -6,6 +6,7 @@ import com.ghosttech.exception.NotFoundException;
 import com.ghosttech.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class UserService {
     public User addUser(UserRequest userRequest)  {
 
         Boolean isUserExit = userDao.checkifUserExist(userRequest);
-        if(isUserExit) throw new NotFoundException(String.format("User %s is already exist", userRequest.getFirstname()),"USER_NOT_FOUND");
+        if(isUserExit) throw new  NotFoundException(String.format("User %s is already exist", userRequest.getFirstname()),"USER_NOT_FOUND");
 
         var user = User.builder()
                 .id(UUID.randomUUID())

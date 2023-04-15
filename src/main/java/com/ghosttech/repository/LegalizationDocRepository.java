@@ -21,7 +21,7 @@ public class LegalizationDocRepository implements LegalizationDocDao {
                 quantity,
                 file_url,
                 designation,
-                user_id
+                legalization_id
                 )
                 VALUES(?,?,?,?,?)
                 """;
