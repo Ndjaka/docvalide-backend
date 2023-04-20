@@ -1,4 +1,4 @@
-package com.ghosttech.repository;
+package com.ghosttech.dataAccess;
 
 import com.ghosttech.dao.LegalizationDocDao;
 import com.ghosttech.model.LegalizationDoc;
@@ -6,9 +6,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@Repository()
 @AllArgsConstructor
-public class LegalizationDocRepository implements LegalizationDocDao {
+public class LegalizationDocJDBCDataAccessService
+        implements LegalizationDocDao {
 
     JdbcTemplate jdbcTemplate;
 

@@ -22,7 +22,6 @@ import static com.ghosttech.constants.Directory.DOCUMENTS_DIRECTORY;
 @RequestMapping("documents")
 @AllArgsConstructor
 public class FileController {
-    private final GetEnvProperty getEnvProperty;
 
     @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws IOException {

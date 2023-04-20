@@ -1,10 +1,10 @@
 package com.ghosttech.service;
 
+import com.ghosttech.dao.LegalizationDao;
+import com.ghosttech.dao.LegalizationDocDao;
 import com.ghosttech.dto.LegalizationRequest;
 import com.ghosttech.model.Legalization;
 import com.ghosttech.model.LegalizationDoc;
-import com.ghosttech.repository.LegalizationDocRepository;
-import com.ghosttech.repository.LegalizationRepository;
 import com.ghosttech.utils.FileManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Slf4j
 public class LegalizationService {
-    private final LegalizationDocRepository legalizationDocRepository;
-    private final LegalizationRepository legalizationRepository;
+    private final LegalizationDao legalizationDao;
+    private final LegalizationDocDao legalizationDocDao;
 
     @Transactional
     public void addLegalization(LegalizationRequest legalizationRequest) {
@@ -37,7 +37,7 @@ public class LegalizationService {
                 .date(Instant.now())
                 .build();
 
-       int insertLegalizationId = legalizationRepository.insertLegalization(legalization);
+       int insertLegalizationId = legalizationDao.insertLegalization(legalization);
        if(insertLegalizationId != 1) throw new IllegalStateException("something went wrong when legalization was insert");
 
        legalizationRequest.getLegalizationDocs().forEach(request -> {
@@ -52,7 +52,7 @@ public class LegalizationService {
                    .legalization_id(legalizationId)
                    .build();
 
-           int insertLegalizationDocId = legalizationDocRepository.insertLegalizationDoc(legalizationdoc);
+           int insertLegalizationDocId = legalizationDocDao.insertLegalizationDoc(legalizationdoc);
            if(insertLegalizationDocId != 1) throw new IllegalStateException("something went wrong when legalizationDoc was insert");
 
        });

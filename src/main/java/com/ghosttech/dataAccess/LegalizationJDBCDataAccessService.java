@@ -1,4 +1,4 @@
-package com.ghosttech.repository;
+package com.ghosttech.dataAccess;
 
 import com.ghosttech.dao.LegalizationDao;
 import com.ghosttech.model.Legalization;
@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 
-@Repository
+@Repository()
 @AllArgsConstructor
-public class LegalizationRepository implements LegalizationDao {
+public class LegalizationJDBCDataAccessService
+        implements LegalizationDao {
     private final JdbcTemplate jdbcTemplate;
     @Override
     public int insertLegalization(Legalization legalization) {

@@ -1,4 +1,4 @@
-package com.ghosttech.repository;
+package com.ghosttech.dataAccess;
 
 import com.ghosttech.dao.UserDao;
 import com.ghosttech.dto.UserRequest;
@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 
 
-@Repository
+@Repository()
 @AllArgsConstructor
-public class UserRepository implements UserDao {
+public class UserJDBCDataAccessService implements UserDao {
     private final JdbcTemplate jdbcTemplate;
     @Override
     public int insertUser(User user) {
