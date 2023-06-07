@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 @Repository()
 @AllArgsConstructor
-public class UserJDBCDataAccessService implements UserDao {
+public class UserJDBCDataService implements UserDao {
     private final JdbcTemplate jdbcTemplate;
     @Override
     public int insertUser(User user) {

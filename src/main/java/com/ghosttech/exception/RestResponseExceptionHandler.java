@@ -20,6 +20,7 @@ public  class RestResponseExceptionHandler extends ResponseEntityExceptionHandle
                 .message(exception.getMessage())
                 .build();
     }
+    
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)

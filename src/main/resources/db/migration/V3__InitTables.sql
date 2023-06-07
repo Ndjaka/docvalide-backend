@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS legalization_docs(
     quantity INT NOT NULL,
     file_url varchar(255),
     designation varchar(255),
-    user_id UUID REFERENCES legalization(id) ON DELETE CASCADE
+    legalization_id UUID REFERENCES legalization(id) ON DELETE CASCADE
 );
 
 ALTER TABLE legalization

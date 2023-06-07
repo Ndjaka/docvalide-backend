@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository()
 @AllArgsConstructor
-public class LegalizationDocJDBCDataAccessService
+public class LegalizationDocJDBCDataService
         implements LegalizationDocDao {
 
     JdbcTemplate jdbcTemplate;

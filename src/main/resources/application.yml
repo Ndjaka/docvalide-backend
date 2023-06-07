@@ -1,0 +1,13 @@
+app:
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        jdbc-url: jdbc:postgresql://localhost:5433/docvalide
+        maximum-pool-size: 30
+        password: password
+        username: ghosttech
+files:
+    directory: documents
+server:
+    error:
+        include-binding-errors: always
+        include-message: always
