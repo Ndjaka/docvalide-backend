@@ -6,7 +6,8 @@ import java.time.Instant;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

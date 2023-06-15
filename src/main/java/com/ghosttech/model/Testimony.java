@@ -1,12 +1,12 @@
 package com.ghosttech.model;
-import java.util.UUID;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+
+import java.util.UUID;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

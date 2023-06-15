@@ -2,11 +2,13 @@ package com.ghosttech.dto;
 
 import com.ghosttech.model.FileUrls;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 public class CriminalRecordExtractRequest {
 
     @NotBlank(message = "The mother's name cannot be empty")

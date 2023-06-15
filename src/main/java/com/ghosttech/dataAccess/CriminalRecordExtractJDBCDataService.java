@@ -1,4 +1,4 @@
-package com.ghosttech.repository;
+package com.ghosttech.dataAccess;
 
 import com.ghosttech.dao.CriminalRecordExtractDao;
 import com.ghosttech.model.CriminalRecordExtract;
@@ -9,9 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 
 
-@Repository
+@Repository()
 @AllArgsConstructor
-public class CriminalRecordExtractRepository implements CriminalRecordExtractDao {
+public class CriminalRecordExtractJDBCDataService
+        implements CriminalRecordExtractDao {
 
     private final JdbcTemplate jdbcTemplate;
     @Override
