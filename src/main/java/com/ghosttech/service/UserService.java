@@ -15,6 +15,12 @@ import java.util.UUID;
 public class UserService {
 
     private  final UserDao userDao;
+
+    /**
+     * Add user.
+     * @param userRequest the user request
+     *
+     */
     public User addUser(UserRequest userRequest)  {
 
         Boolean isUserExit = userDao.checkifUserExist(userRequest);

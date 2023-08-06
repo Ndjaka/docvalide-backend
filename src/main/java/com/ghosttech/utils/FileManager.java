@@ -12,7 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 
-import static com.ghosttech.constants.Directory.DOCUMENTS_DIRECTORY;
+import static com.ghosttech.constants.DocValidConstant.DOCUMENTS_DIRECTORY;
 
 @Data
 @AllArgsConstructor

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 @Repository()
 @AllArgsConstructor
-public class CriminalRecordExtractJDBCDataService
+public class CriminalRecordExtractJDBCDataAccess
         implements CriminalRecordExtractDao {
 
     private final JdbcTemplate jdbcTemplate;

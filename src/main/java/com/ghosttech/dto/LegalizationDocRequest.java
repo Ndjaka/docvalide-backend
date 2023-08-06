@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LegalizationDocRequest {
-    @NotNull(message = "quantity can not be null")
     @NotBlank( message = "quantity is required")
     private int quantity;
 

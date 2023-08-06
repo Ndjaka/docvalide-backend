@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 
 @Repository()
 @AllArgsConstructor
-public class LegalizationJDBCDataService
+public class LegalizationJDBCDataAccess
         implements LegalizationDao {
     private final JdbcTemplate jdbcTemplate;
     @Override

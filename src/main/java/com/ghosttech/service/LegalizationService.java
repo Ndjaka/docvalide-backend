@@ -21,6 +21,11 @@ public class LegalizationService {
     private final LegalizationDao legalizationDao;
     private final LegalizationDocDao legalizationDocDao;
 
+    /**
+     * Add legalization.
+     * @param legalizationRequest the legalization request
+     *
+     */
     @Transactional
     public void addLegalization(LegalizationRequest legalizationRequest) {
         log.info("starting create legalization.......");

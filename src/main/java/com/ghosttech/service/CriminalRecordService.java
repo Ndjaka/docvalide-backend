@@ -1,5 +1,6 @@
 package com.ghosttech.service;
 
+import com.ghosttech.constants.DocValidConstant;
 import com.ghosttech.dao.CriminalRecordExtractDao;
 import com.ghosttech.dto.CriminalRecordExtractRequest;
 import com.ghosttech.dto.CriminalRecordExtractResponse;
@@ -23,15 +24,15 @@ public class CriminalRecordService {
 
     /**
      * Create the files, add criminalRecordExtract in database and add these files in Directory of the documents
-     * @param criminalRecordRequest - data who are comming of the client is the object who represent criminalRecord
+     * @param criminalRecordRequest - data who are coming of the client is the object who represent criminalRecord
      * @return CriminalRecordExtractResponse - response who is returning of the client to confirm creating data in database
      */
     public CriminalRecordExtractResponse addCriminalRecord(CriminalRecordExtractRequest criminalRecordRequest)  {
 
         log.info("start creating criminal record...");
 
-        String FrontFileName = "Front-" + criminalRecordRequest.getFileUrl().getFileName();
-        String BackFileName = "Back-"+criminalRecordRequest.getFileUrl().getFileName();
+        String FrontFileName = DocValidConstant.FRONT_FILE_NAME + criminalRecordRequest.getFileUrl().getFileName();
+        String BackFileName =  DocValidConstant.BACK_FILE_NAME + criminalRecordRequest.getFileUrl().getFileName();
 
         var criminalRecord = CriminalRecordExtract.builder()
                 .id(UUID.randomUUID())

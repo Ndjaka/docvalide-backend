@@ -1,6 +1,5 @@
 package com.ghosttech.controller;
 
-import com.ghosttech.utils.GetEnvProperty;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -16,7 +15,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static com.ghosttech.constants.Directory.DOCUMENTS_DIRECTORY;
+import static com.ghosttech.constants.DocValidConstant.DOCUMENTS_DIRECTORY;
 
 @RestController
 @RequestMapping("documents")
