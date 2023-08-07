@@ -36,8 +36,9 @@ public class LegalizationService {
         var legalization = Legalization.builder()
                 .id(legalizationId)
                 .isLegalized(false)
+                .quantity(legalizationRequest.getQuantity())
                 .motif(legalizationRequest.getMotif())
-                .receipMoment(legalizationRequest.getReceipMoment())
+                .receipMoment(legalizationRequest.getReceiptMoment())
                 .userId(legalizationRequest.getUserId())
                 .date(Instant.now())
                 .build();

@@ -22,10 +22,11 @@ public class LegalizationJDBCDataAccess
                             motif,
                             receip_moment,
                             isLegalized,
+                            quantity,
                             user_id,
                             date
                         )
-                        VALUES (?, ?, ?, ?, ?, ?);
+                        VALUES (?, ?, ?, ?, ?, ?, ?);
                     """;
 
         return jdbcTemplate.update(
@@ -34,6 +35,7 @@ public class LegalizationJDBCDataAccess
                 legalization.getMotif(),
                 legalization.getReceipMoment(),
                 legalization.isLegalized(),
+                legalization.getQuantity(),
                 legalization.getUserId(),
                 Timestamp.from(legalization.getDate())
         );

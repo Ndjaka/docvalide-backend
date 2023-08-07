@@ -17,9 +17,11 @@ public class LegalizationRequest {
     @NotNull(message = "motivation can not be null")
     private String motif;
 
+    private int quantity;
+
     @NotBlank(message = "receipt moment is required")
     @NotNull(message = "receipt can not be null")
-    private String receipMoment;
+    private String receiptMoment;
     private UUID userId;
     List<LegalizationDocRequest> legalizationDocs;
 

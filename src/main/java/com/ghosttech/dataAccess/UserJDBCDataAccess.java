@@ -2,11 +2,13 @@ package com.ghosttech.dataAccess;
 
 import com.ghosttech.dao.UserDao;
 import com.ghosttech.dto.UserRequest;
+import com.ghosttech.mapper.UserRowMapper;
 import com.ghosttech.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 
 @Repository()
@@ -67,5 +69,21 @@ public class UserJDBCDataAccess implements UserDao {
                 userRequest.getEmail(),
                 userRequest.getPhoneNumber()
         );
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+
+        String sql = """
+                        SELECT
+                           *
+                        FROM users
+                        WHERE email = ?;
+                    """;
+
+        return jdbcTemplate
+                .query(sql, new UserRowMapper(), email)
+                .stream()
+                .findFirst();
     }
 }

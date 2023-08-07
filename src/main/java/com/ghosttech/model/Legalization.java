@@ -15,7 +15,7 @@ public class Legalization {
 
     private String receipMoment;
     private boolean isLegalized;
-
+    private int quantity;
     private UUID userId;
     private Instant date;
 }

@@ -23,26 +23,33 @@ public class UserService {
      */
     public User addUser(UserRequest userRequest)  {
 
-        Boolean isUserExit = userDao.checkifUserExist(userRequest);
-        if(isUserExit) throw new  NotFoundException(String.format("User %s is already exist", userRequest.getFirstname()),"USER_NOT_FOUND");
+        //TODO: for later change this and check if user exist
 
-        var user = User.builder()
-                .id(UUID.randomUUID())
-                .email(userRequest.getEmail())
-                .createdDate(Instant.now())
-                .password(userRequest.getPassword())
-                .phoneNumber(userRequest.getPhoneNumber())
-                .roles(userRequest.getRoles())
-                .isActive(true)
-                .lastname(userRequest.getLastname())
-                .firstname(userRequest.getFirstname())
-                .occupation(userRequest.getOccupation())
-                .townOfResidence(userRequest.getTownOfResidence())
-                .build();
+       var userOptional =  userDao.getUserByEmail(userRequest.getEmail());
 
-        int result = userDao.insertUser(user);
-        if(result != 1 ) throw new IllegalStateException("oops somthing went wrong");
+       if ((userOptional.isPresent())) {
+           return userOptional.get();
+       }else {
+           var user = User.builder()
+                   .id(UUID.randomUUID())
+                   .email(userRequest.getEmail())
+                   .createdDate(Instant.now())
+                   .password(userRequest.getPassword())
+                   .phoneNumber(userRequest.getPhoneNumber())
+                   .roles(userRequest.getRoles())
+                   .isActive(true)
+                   .lastname(userRequest.getLastname())
+                   .firstname(userRequest.getFirstname())
+                   .occupation(userRequest.getOccupation())
+                   .townOfResidence(userRequest.getTownOfResidence())
+                   .build();
 
-        return user;
+           int result = userDao.insertUser(user);
+           if(result != 1 ) throw new IllegalStateException("oops something went wrong");
+
+           return user;
+       }
+
+
     }
 }
