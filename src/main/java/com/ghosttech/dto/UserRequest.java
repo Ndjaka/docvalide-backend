@@ -10,7 +10,7 @@ import lombok.Setter;
 public class UserRequest {
     @NotBlank(message = "First name cannot be blank")
     private String firstname;
-    @NotBlank(message = "Last name cannot be blank")
+    //@NotBlank(message = "Last name cannot be blank")
     private String lastname;
     @NotBlank(message = "Email address cannot be blank")
     @Email(message = "Email address must be valid")
