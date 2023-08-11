@@ -1,5 +1,6 @@
 package com.ghosttech.controller;
 
+import com.ghosttech.constants.DocValidConstant;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -18,13 +19,13 @@ import java.nio.file.Paths;
 import static com.ghosttech.constants.DocValidConstant.DOCUMENTS_DIRECTORY;
 
 @RestController
-@RequestMapping("documents")
+@RequestMapping(DocValidConstant.FILE_DOWNLOAD)
 @AllArgsConstructor
 public class FileController {
 
     @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) throws IOException {
-        Path path = Paths.get(System.getProperty("user.dir") + "/" +DOCUMENTS_DIRECTORY+ "/" + filename);
+        Path path = Paths.get(DocValidConstant.DOCUMENT_FOLDER + filename);
         Resource file = new FileSystemResource(path);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);

@@ -1,5 +1,6 @@
 package com.ghosttech.utils;
 
+import com.ghosttech.constants.DocValidConstant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class FileManager {
         try {
             byte[] data = Base64.getDecoder().decode(fileToBase64);
 
-            Path file = Paths.get(System.getProperty("user.dir") + "/" +DOCUMENTS_DIRECTORY+ "/" + fileName);
+            Path file = Paths.get(DocValidConstant.DOCUMENT_FOLDER + fileName);
             Files.write(file, data);
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,8 +45,9 @@ public class FileManager {
 
     public static String getFile(String fileName) {
 
+
         return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/" + DOCUMENTS_DIRECTORY + "/")
+                .path("/" + DocValidConstant.FILE_DOWNLOAD + "/")
                 .path(fileName)
                 .toUriString();
     }

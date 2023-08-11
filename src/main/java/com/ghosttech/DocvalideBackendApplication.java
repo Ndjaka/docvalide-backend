@@ -1,18 +1,20 @@
 package com.ghosttech;
 
+import com.ghosttech.constants.DocValidConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @SpringBootApplication
 @Slf4j
-public class DocvalideBackendApplication implements ApplicationRunner {
+public class DocvalideBackendApplication implements ApplicationRunner{
 
 	public static void main(String[] args) {
 		SpringApplication.run(DocvalideBackendApplication.class, args);
@@ -20,16 +22,18 @@ public class DocvalideBackendApplication implements ApplicationRunner {
 
 
 	@Override
-	public void run(ApplicationArguments args)  {
+	public void run(ApplicationArguments args) {
+		String folderPath = DocValidConstant.DOCUMENT_FOLDER;
+		File folder = new File(folderPath);
 
-		String directoryName = "documents";
-		Path directoryPath = Paths.get(directoryName);
-
-		try {
-			Files.createDirectory(directoryPath);
-			log.info("Directory created");
-		} catch (Exception ex) {
-			log.error("Directory is already created and error is : " + ex.getMessage());
+		if (!folder.exists()) {
+			if (folder.mkdirs()) {
+				log.info("Directory is created : " + folderPath);
+			} else {
+				log.error("Impossible to create folder : " + folderPath);
+			}
+		} else {
+			log.info("Folder is already exist : {} " , folderPath);
 		}
 	}
 }
