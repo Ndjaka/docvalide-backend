@@ -2,7 +2,6 @@ package com.ghosttech.service;
 
 import com.ghosttech.dao.UserDao;
 import com.ghosttech.dto.UserRequest;
-import com.ghosttech.exception.NotFoundException;
 import com.ghosttech.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

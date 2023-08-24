@@ -1,7 +1,6 @@
 package com.ghosttech.constants;
 
 
-import java.util.ArrayList;
 
 public class DocValidConstant {
     public static final String DOCUMENTS_DIRECTORY = "docs";
@@ -11,7 +10,8 @@ public class DocValidConstant {
     public static final String PENDING = "pending";
     public static final String COMPLETED = "completed";
     public static final String CANCELLED = "cancelled";
-
+    public static final String CRIMINAL_RECORD = "criminal_record";
+    public static final String LEGALIZATION = "legalization";
     public static final String DOCUMENT_FOLDER = System.getProperty("user.home") + "/" + DOCUMENTS_DIRECTORY + "/";
 
 }

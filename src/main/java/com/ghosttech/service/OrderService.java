@@ -1,22 +1,33 @@
 package com.ghosttech.service;
 
 import com.ghosttech.constants.DocValidConstant;
+import com.ghosttech.constants.MessageConstant;
 import com.ghosttech.dao.OrdersDao;
+import com.ghosttech.dao.UserDao;
 import com.ghosttech.dto.OrderRequest;
+import com.ghosttech.exception.NotFoundException;
+import com.ghosttech.model.MessageRequest;
+import com.ghosttech.model.MessageResponse;
 import com.ghosttech.model.Orders;
+import com.ghosttech.model.User;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.UUID;
 
 
 @Service
+@AllArgsConstructor
+@Slf4j
 public class OrderService  {
     private final OrdersDao ordersDao;
+    private final UserDao userDao;
+    private final MessageService messageService;
+    private final EmailService emailService;
 
-    public OrderService(OrdersDao ordersDao) {
-        this.ordersDao = ordersDao;
-    }
 
     /**
      * Add order.
@@ -25,8 +36,12 @@ public class OrderService  {
      *
      */
     public void addOrder(OrderRequest orderRequest, UUID userId) {
+        log.info("addOrder : {}", orderRequest);
 
-        var order = Orders.builder()
+        User user = userDao.getUserById(userId)
+                .orElseThrow(() -> new NotFoundException("user not found", "USER_NOT_FOUND"));
+
+        Orders order = Orders.builder()
                 .id(UUID.randomUUID())
                 .orderType(orderRequest.getOrderType())
                 .orderAmount(orderRequest.getOrderAmount())
@@ -37,9 +52,64 @@ public class OrderService  {
                 .build();
 
         int insertOrderId = ordersDao.insertOrder(order);
-        if(insertOrderId != 1) throw new IllegalStateException("something went wrong when order was insert");
 
+        if (insertOrderId == 1) {
+            String orderTypeMessage = (orderRequest.getOrderType().equals(DocValidConstant.CRIMINAL_RECORD))
+                    ? "vient de faire une demande de casier judiciaire"
+                    : "vient de faire une demande de légalisation de document";
+
+            String message = user.getFirstname() + " " + user.getLastname() + " " + orderTypeMessage;
+
+            sendAdminNotification(message);
+            sendUserNotification(user);
+        } else {
+            throw new IllegalStateException("Oops, something went wrong");
+        }
     }
 
+    private void sendUserNotification(User user) {
+        MessageRequest messageRequestToUser = MessageRequest.builder()
+                .user_id(MessageConstant.USER_ID)
+                .password(MessageConstant.PASSWORD_ADMIN)
+                .phone_str(user.getPhoneNumber())
+                .sender_name(MessageConstant.SENDER_NAME)
+                .message("Votre demande a été bien reçue. Vous serez contacté dans les plus brefs délais.")
+                .build();
+
+        MessageResponse messageResponseToUser = messageService.sendMessage(messageRequestToUser);
+
+        String emailBody = "Bonjour " + user.getFirstname() +" "+ user.getLastname() + "" + ",\n\n" +
+                           "Votre demande a été bien reçue. Vous serez contacté dans les plus brefs délais.\n\n" +
+                           "Cordialement,\n" +
+                           "L'équipe DocValide";
+
+        if (messageResponseToUser.isSuccess()) {
+            log.info("Message sent successfully to user");
+        } else {
+            log.error("Message not sent to user");
+        }
+
+        emailService.sendMail(null,user.getEmail(),null, "Demande reçue", emailBody);
+    }
+
+    private void sendAdminNotification(String message) {
+        MessageRequest messageRequestToAdmin = MessageRequest.builder()
+                .user_id(MessageConstant.USER_ID)
+                .password(MessageConstant.PASSWORD_ADMIN)
+                .phone_str(MessageConstant.PHONE_STR_ADMIN)
+                .sender_name(MessageConstant.SENDER_NAME)
+                .message(message)
+                .build();
+
+        MessageResponse messageResponseToAdmin = messageService.sendMessage(messageRequestToAdmin);
+
+        if (messageResponseToAdmin.isSuccess()) {
+            log.info("Message sent successfully to admin");
+        } else {
+            log.error("Message not sent to admin");
+        }
+
+        emailService.sendMail(null, MessageConstant.EMAIL_ADMIN,MessageConstant.cc, "Nouvelle demande", message );
+    }
 
 }

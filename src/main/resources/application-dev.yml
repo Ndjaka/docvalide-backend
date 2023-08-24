@@ -5,8 +5,7 @@ app:
     maximum-pool-size: 30
     password: password
     username: ghosttech
-files:
-  directory: documents
+
 server:
   error:
     include-binding-errors: always
@@ -14,6 +13,16 @@ server:
   port: 8081
 
 spring:
-  servlet:
-    multipart:
-      max-request-size: 100MB
+  mail:
+    host: smtp.gmail.com
+    username: docvalide@gmail.com
+    password: xeoswshpfeymumsk
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+

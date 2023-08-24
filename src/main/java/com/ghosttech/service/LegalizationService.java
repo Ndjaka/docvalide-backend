@@ -5,6 +5,7 @@ import com.ghosttech.dao.LegalizationDocDao;
 import com.ghosttech.dto.LegalizationRequest;
 import com.ghosttech.model.Legalization;
 import com.ghosttech.model.LegalizationDoc;
+import com.ghosttech.model.LegalizationOrderManager;
 import com.ghosttech.utils.FileManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -64,5 +66,13 @@ public class LegalizationService {
        });
 
         log.info("create legalization is done....");
+    }
+
+    public List<LegalizationOrderManager> getLegalizationOrdersWithUserAndDetailsOrderedByDate() {
+        return legalizationDao.selectLegalizationOrdersWithUserAndDetailsOrderedByDate();
+    }
+
+    public List<LegalizationDoc> getLegalizationDocsByLegalizationId(UUID legalizationId) {
+        return legalizationDocDao.selectLegalizationDocById(legalizationId);
     }
 }

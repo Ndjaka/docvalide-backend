@@ -2,6 +2,19 @@ spring:
   servlet:
       multipart:
         max-request-size: 100MB
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+    host: smtp.gmail.com
+    username: docvalide@gmail.com
+    password: xeoswshpfeymumsk
+    port: 587
+
 app:
     datasource:
         driver-class-name: org.postgresql.Driver

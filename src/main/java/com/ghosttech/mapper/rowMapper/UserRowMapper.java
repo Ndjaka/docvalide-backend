@@ -1,4 +1,4 @@
-package com.ghosttech.mapper;
+package com.ghosttech.mapper.rowMapper;
 
 import com.ghosttech.model.User;
 import org.springframework.jdbc.core.RowMapper;

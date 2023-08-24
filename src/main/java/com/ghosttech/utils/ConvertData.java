@@ -16,4 +16,17 @@ public class ConvertData {
 
         return convertedData;
     }
+
+    public  static Object stringToObject(String string, Class<?> objectClass){
+        Object convertedData = null;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            convertedData = objectMapper.readValue(string, objectClass);
+        }catch (JsonProcessingException e){
+            e.printStackTrace();
+        }
+
+        return convertedData;
+    }
 }

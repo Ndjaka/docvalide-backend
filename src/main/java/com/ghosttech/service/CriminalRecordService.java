@@ -5,7 +5,9 @@ import com.ghosttech.dao.CriminalRecordExtractDao;
 import com.ghosttech.dto.CriminalRecordExtractRequest;
 import com.ghosttech.dto.CriminalRecordExtractResponse;
 import com.ghosttech.mapper.CriminalRecordDTOMapper;
+import com.ghosttech.mapper.rowMapper.CriminalRecordRowMapper;
 import com.ghosttech.model.CriminalRecordExtract;
+import com.ghosttech.model.CriminalRecordExtractManager;
 import com.ghosttech.model.FileUrls;
 import com.ghosttech.utils.FileManager;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -56,5 +59,10 @@ public class CriminalRecordService {
         log.info("end of creating criminal record...");
 
         return criminalRecordDTOMapper.apply(criminalRecord);
+    }
+
+
+    public List<CriminalRecordExtractManager>  getCriminalRecordExtractByOrdersAndUser() {
+        return extractDao.selectCriminalRecordExtractByOrdersAndUser();
     }
 }

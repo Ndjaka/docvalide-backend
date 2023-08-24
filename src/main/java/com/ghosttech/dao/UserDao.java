@@ -4,6 +4,7 @@ import com.ghosttech.dto.UserRequest;
 import com.ghosttech.model.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 
 public interface UserDao {
@@ -11,4 +12,7 @@ public interface UserDao {
     Boolean checkifUserExist(UserRequest user);
 
     Optional<User> getUserByEmail(String email);
+    Optional<User> getUserById(UUID  userId);
+
+
 }

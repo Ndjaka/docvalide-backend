@@ -1,12 +1,16 @@
 package com.ghosttech.dataAccess;
 
+import com.ghosttech.constants.DocValidConstant;
 import com.ghosttech.dao.LegalizationDao;
+import com.ghosttech.mapper.rowMapper.LegalizationRowMapper;
 import com.ghosttech.model.Legalization;
+import com.ghosttech.model.LegalizationOrderManager;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Repository()
 @AllArgsConstructor
@@ -40,5 +44,25 @@ public class LegalizationJDBCDataAccess
                 Timestamp.from(legalization.getDate())
         );
 
+    }
+
+    @Override
+    public List<LegalizationOrderManager> selectLegalizationOrdersWithUserAndDetailsOrderedByDate() {
+
+      String sql = """
+                         SELECT o.id as orderId , o.order_date as orderDate , o.order_status,
+                                o.order_amount , o.order_number , u.id as userId,
+                                u.firstname , u.lastname , u.phone_number , u.email,
+                                u.town_of_residence , u.is_active ,  l.id as legalizationId ,
+                                l.motif , l.receip_moment , l.islegalized , l.quantity ,
+                                l.date as legalizationDate
+                         FROM orders o
+                         JOIN users u on u.id = o.user_id
+                         JOIN legalization l on u.id = l.user_id
+                         WHERE o.ordertype = ?
+                         ORDER BY o.order_date
+                    """;
+
+            return jdbcTemplate.query(sql, new LegalizationRowMapper(), DocValidConstant.LEGALIZATION);
     }
 }

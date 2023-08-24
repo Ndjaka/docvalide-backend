@@ -2,15 +2,15 @@ package com.ghosttech.controller;
 
 import com.ghosttech.dto.CriminalRecordExtractRequest;
 import com.ghosttech.dto.Response;
+import com.ghosttech.model.CriminalRecordExtractManager;
 import com.ghosttech.service.CriminalRecordService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -28,5 +28,13 @@ public class CriminalRecordExtractController {
                         .data(criminalRecord)
                         .build()
                 );
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CriminalRecordExtractManager>> listCriminalRecordExtractByOrdersAndUser(){
+        var criminalRecord = criminalRecordService.getCriminalRecordExtractByOrdersAndUser();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(criminalRecord);
     }
 }
