@@ -86,6 +86,16 @@ public class OrderService  {
         if (messageResponseToUser.isSuccess()) {
             log.info("Message sent successfully to user");
         } else {
+            emailService.sendMail(
+                    null,
+                    MessageConstant.EMAIL_ADMIN,
+                    MessageConstant.cc,
+                    "Demande Non Reçue par l'utilisateur",
+                    "L'utilisateur " + user.getFirstname() + " " + user.getLastname() + " n'a pas reçu le message de confirmation. Veuillez le/la contacter au numéro suivant : " +
+                    user.getPhoneNumber() + ".\n\n" +
+                    "Nous souhaitons également vous informer que votre crédit SMS actuel s'élève à " + messageResponseToUser.getData().getCredit_sms() + ".\n\n" +
+                    "Cordialement,\n"
+            );
             log.error("Message not sent to user");
         }
 
@@ -106,6 +116,16 @@ public class OrderService  {
         if (messageResponseToAdmin.isSuccess()) {
             log.info("Message sent successfully to admin");
         } else {
+            emailService.sendMail(
+                    null,
+                    MessageConstant.EMAIL_ADMIN,
+                    MessageConstant.cc,
+                    "Demande Non Reçue par l'administrateur",
+                    "L'administrateur n'a pas reçu le message de confirmation. Veuillez le/la contacter au numéro suivant : " +
+                    MessageConstant.PHONE_STR_ADMIN + ".\n\n" +
+                    "Nous souhaitons également vous informer que votre crédit SMS actuel s'élève à " + messageResponseToAdmin.getData().getCredit_sms() + ".\n\n" +
+                    "Cordialement,\n");
+
             log.error("Message not sent to admin");
         }
 
