@@ -27,6 +27,7 @@ public class OrderService  {
     private final UserDao userDao;
     private final MessageService messageService;
     private final EmailService emailService;
+    private final EnvironmentService environmentService;
 
 
     /**
@@ -62,44 +63,43 @@ public class OrderService  {
 
             sendAdminNotification(message);
             sendUserNotification(user);
+
         } else {
             throw new IllegalStateException("Oops, something went wrong");
         }
     }
-
     private void sendUserNotification(User user) {
-        MessageRequest messageRequestToUser = MessageRequest.builder()
-                .user_id(MessageConstant.USER_ID)
-                .password(MessageConstant.PASSWORD_ADMIN)
-                .phone_str(user.getPhoneNumber())
-                .sender_name(MessageConstant.SENDER_NAME)
-                .message("Votre demande a été bien reçue. Vous serez contacté dans les plus brefs délais.")
-                .build();
+        String confirmationMessage = "Votre demande a été bien reçue. Vous serez contacté dans les plus brefs délais.";
 
-        MessageResponse messageResponseToUser = messageService.sendMessage(messageRequestToUser);
-
-        String emailBody = "Bonjour " + user.getFirstname() +" "+ user.getLastname() + "" + ",\n\n" +
-                           "Votre demande a été bien reçue. Vous serez contacté dans les plus brefs délais.\n\n" +
+        String emailBody = "Bonjour " + user.getFirstname() + " " + user.getLastname() + ",\n\n" +
+                           confirmationMessage + "\n\n" +
                            "Cordialement,\n" +
                            "L'équipe DocValide";
 
-        if (messageResponseToUser.isSuccess()) {
-            log.info("Message sent successfully to user");
-        } else {
-            emailService.sendMail(
-                    null,
-                    MessageConstant.EMAIL_ADMIN,
-                    MessageConstant.cc,
-                    "Demande Non Reçue par l'utilisateur",
-                    "L'utilisateur " + user.getFirstname() + " " + user.getLastname() + " n'a pas reçu le message de confirmation. Veuillez le/la contacter au numéro suivant : " +
-                    user.getPhoneNumber() + ".\n\n" +
-                    "Nous souhaitons également vous informer que votre crédit SMS actuel s'élève à " + messageResponseToUser.getData().getCredit_sms() + ".\n\n" +
-                    "Cordialement,\n"
-            );
-            log.error("Message not sent to user");
-        }
+        if (!environmentService.getActiveEnvironment().equals("local")) {
+            MessageRequest messageRequestToUser = MessageRequest.builder()
+                    .user_id(MessageConstant.USER_ID)
+                    .password(MessageConstant.PASSWORD_ADMIN)
+                    .phone_str(user.getPhoneNumber())
+                    .sender_name(MessageConstant.SENDER_NAME)
+                    .message(confirmationMessage)
+                    .build();
 
+            MessageResponse messageResponseToUser = messageService.sendMessage(messageRequestToUser);
+            String errorMessage = "L'utilisateur " + user.getFirstname() + " " + user.getLastname() + " n'a pas reçu le message de confirmation. Veuillez le/la contacter au numéro suivant : " +
+                                  user.getPhoneNumber() + ".\n\n" +
+                                  "Nous souhaitons également vous informer que votre crédit SMS actuel s'élève à " + messageResponseToUser.getData().getCredit_sms() + ".\n\n" +
+                                  "Cordialement,\n";
+
+            if (messageResponseToUser.isSuccess()) {
+                log.info("Message sent successfully to user");
+            } else {
+                emailService.sendMail(null, MessageConstant.EMAIL_ADMIN, MessageConstant.cc, "Demande Non Reçue par l'utilisateur", errorMessage);
+                log.error("Message not sent to user");
+            }
+        }
         emailService.sendMail(null,user.getEmail(),null, "Demande reçue", emailBody);
+
     }
 
     private void sendAdminNotification(String message) {
@@ -111,25 +111,24 @@ public class OrderService  {
                 .message(message)
                 .build();
 
-        MessageResponse messageResponseToAdmin = messageService.sendMessage(messageRequestToAdmin);
+        if (!environmentService.getActiveEnvironment().equals("local")) {
+            MessageResponse messageResponseToAdmin = messageService.sendMessage(messageRequestToAdmin);
 
-        if (messageResponseToAdmin.isSuccess()) {
-            log.info("Message sent successfully to admin");
-        } else {
-            emailService.sendMail(
-                    null,
-                    MessageConstant.EMAIL_ADMIN,
-                    MessageConstant.cc,
-                    "Demande Non Reçue par l'administrateur",
-                    "L'administrateur n'a pas reçu le message de confirmation. Veuillez le/la contacter au numéro suivant : " +
-                    MessageConstant.PHONE_STR_ADMIN + ".\n\n" +
-                    "Nous souhaitons également vous informer que votre crédit SMS actuel s'élève à " + messageResponseToAdmin.getData().getCredit_sms() + ".\n\n" +
-                    "Cordialement,\n");
+            String adminErrorMessage = "L'administrateur n'a pas reçu le message de confirmation. Veuillez le/la contacter au numéro suivant : " +
+                                       MessageConstant.PHONE_STR_ADMIN + ".\n\n" +
+                                       "Nous souhaitons également vous informer que votre crédit SMS actuel s'élève à " + messageResponseToAdmin.getData().getCredit_sms() + ".\n\n" +
+                                       "Cordialement,\n";
 
-            log.error("Message not sent to admin");
+            if (messageResponseToAdmin.isSuccess()) {
+                log.info("Message sent successfully to admin");
+            } else {
+                emailService.sendMail(null, MessageConstant.EMAIL_ADMIN, MessageConstant.cc, "Demande Non Reçue par l'administrateur", adminErrorMessage);
+                log.error("Message not sent to admin");
+            }
         }
 
-        emailService.sendMail(null, MessageConstant.EMAIL_ADMIN,MessageConstant.cc, "Nouvelle demande", message );
+        emailService.sendMail(null, MessageConstant.EMAIL_ADMIN, MessageConstant.cc, "Nouvelle demande", message);
     }
+
 
 }

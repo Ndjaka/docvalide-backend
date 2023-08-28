@@ -50,17 +50,30 @@ public class LegalizationJDBCDataAccess
     public List<LegalizationOrderManager> selectLegalizationOrdersWithUserAndDetailsOrderedByDate() {
 
       String sql = """
-                         SELECT o.id as orderId , o.order_date as orderDate , o.order_status,
-                                o.order_amount , o.order_number , u.id as userId,
-                                u.firstname , u.lastname , u.phone_number , u.email,
-                                u.town_of_residence , u.is_active ,  l.id as legalizationId ,
-                                l.motif , l.receip_moment , l.islegalized , l.quantity ,
-                                l.date as legalizationDate
-                         FROM orders o
-                         JOIN users u on u.id = o.user_id
-                         JOIN legalization l on u.id = l.user_id
-                         WHERE o.ordertype = ?
-                         ORDER BY o.order_date
+                     SELECT DISTINCT ON (l.id)
+                          o.id as orderId,
+                          o.order_date as orderDate,
+                          o.order_status,
+                          o.order_amount,
+                          o.order_number,
+                          u.id as userId,
+                          u.firstname,
+                          u.lastname,
+                          u.phone_number,
+                          u.email,
+                          u.town_of_residence,
+                          u.is_active,
+                          l.id as legalizationId,
+                          l.motif,
+                          l.receip_moment,
+                          l.islegalized,
+                          l.quantity,
+                          l.date as legalizationDate
+                      FROM orders o
+                               INNER JOIN users u ON u.id = o.user_id
+                               INNER JOIN legalization l ON u.id = l.user_id
+                      WHERE o.ordertype = ?
+                      ORDER BY l.id, o.order_date;
                     """;
 
             return jdbcTemplate.query(sql, new LegalizationRowMapper(), DocValidConstant.LEGALIZATION);

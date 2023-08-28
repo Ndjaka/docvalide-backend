@@ -1,13 +1,13 @@
 package com.ghosttech.model;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FileUrls {
     @NotBlank(message = "front url  cannot be empty")
     private String frontUrl;

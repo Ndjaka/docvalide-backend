@@ -14,15 +14,13 @@ server:
 
 spring:
   mail:
-    host: smtp.gmail.com
+    host: localhost
     username: docvalide@gmail.com
-    password: xeoswshpfeymumsk
-    port: 587
+    port: 1025
     properties:
       mail:
         smtp:
           starttls:
-            enable: true
-            required: true
-          auth: true
-
+            enable: false
+            required: false
+          auth: false
