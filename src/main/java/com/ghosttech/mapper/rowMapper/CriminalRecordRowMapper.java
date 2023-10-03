@@ -2,18 +2,21 @@ package com.ghosttech.mapper.rowMapper;
 
 import com.ghosttech.model.*;
 import com.ghosttech.utils.FileManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static com.ghosttech.utils.ConvertData.stringToObject;
 
-
+@Service
 public class CriminalRecordRowMapper implements RowMapper<CriminalRecordExtractManager> {
 
     @Override
     public CriminalRecordExtractManager mapRow(ResultSet rs, int rowNum) throws SQLException {
+
         CriminalRecordExtractManager criminalRecordExtractManager = new CriminalRecordExtractManager();
 
         Orders orders = new Orders();

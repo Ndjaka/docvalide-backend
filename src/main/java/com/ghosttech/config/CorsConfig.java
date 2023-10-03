@@ -11,9 +11,11 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/api/v1/**") // Replace "/api/v1/**" with your API path
                 .allowedOrigins(
                         "http://localhost:5173",
+                        "http://localhost:3000",
+                        "http://localhost:3001",
                         "https://test.docvalide.com",
                         "https://docvalide.com",
-                        "https://app.docvalide.com",
+                        "https://application.docvalide.com",
                         "https://admin.docvalide.com"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE")

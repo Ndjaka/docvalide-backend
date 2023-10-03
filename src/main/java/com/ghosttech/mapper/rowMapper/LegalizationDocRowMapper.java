@@ -10,6 +10,8 @@ import java.sql.SQLException;
 public class LegalizationDocRowMapper implements RowMapper<LegalizationDoc> {
     @Override
     public LegalizationDoc mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+
         return new LegalizationDoc(
                 rs.getObject("id", java.util.UUID.class),
                 rs.getInt("quantity"),

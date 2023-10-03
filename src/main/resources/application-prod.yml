@@ -1,8 +1,12 @@
 spring:
   servlet:
-      multipart:
-        max-request-size: 100MB
+    multipart:
+      max-request-size: 100MB
   mail:
+    host: smtp.gmail.com
+    port: 587
+    username: docvalide@gmail.com
+    password: xeoswshpfeymumsk
     properties:
       mail:
         smtp:
@@ -10,25 +14,20 @@ spring:
             enable: true
             required: true
           auth: true
-    host: smtp.gmail.com
-    username: docvalide@gmail.com
-    password: xeoswshpfeymumsk
-    port: 587
 
 app:
-    datasource:
-        driver-class-name: org.postgresql.Driver
-        jdbc-url: jdbc:postgresql://localhost:5433/docvalide
-        maximum-pool-size: 30
-        password: docv@lide#1234
-        username: ghosttech
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://localhost:5433/docvalide
+    maximum-pool-size: 30
+    password: docv@lide#1234
+    username: ghosttech
+
 files:
-    directory: documents
+  directory: documents
+
 server:
-    error:
-        include-binding-errors: always
-        include-message: always
-    port: 8081
-
-
-
+  error:
+    include-binding-errors: always
+    include-message: always
+  port: 8082

@@ -24,7 +24,7 @@ public class CriminalRecordExtractController {
         return ResponseEntity
                 .status(HttpStatus.CREATED).
                 body(Response.builder()
-                        .message("criminal record is created correcty")
+                        .message("criminal record is created correctly")
                         .data(criminalRecord)
                         .build()
                 );

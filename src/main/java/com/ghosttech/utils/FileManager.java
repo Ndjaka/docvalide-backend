@@ -45,7 +45,6 @@ public class FileManager {
 
     public static String getFile(String fileName) {
 
-
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/" + DocValidConstant.FILE_DOWNLOAD + "/")
                 .path(fileName)

@@ -22,6 +22,7 @@ import java.util.UUID;
 public class LegalizationService {
     private final LegalizationDao legalizationDao;
     private final LegalizationDocDao legalizationDocDao;
+    private final FileManager fileManager;
 
     /**
      * Add legalization.

@@ -25,13 +25,14 @@ public class CriminalRecordService {
     private final CriminalRecordExtractDao extractDao;
     private final CriminalRecordDTOMapper criminalRecordDTOMapper;
 
+
     /**
      * Create the files, add criminalRecordExtract in database and add these files in Directory of the documents
      * @param criminalRecordRequest - data who are coming of the client is the object who represent criminalRecord
      * @return CriminalRecordExtractResponse - response who is returning of the client to confirm creating data in database
      */
     public CriminalRecordExtractResponse addCriminalRecord(CriminalRecordExtractRequest criminalRecordRequest)  {
-
+        FileManager fileManager = new FileManager();
         log.info("start creating criminal record...");
 
         String FrontFileName = DocValidConstant.FRONT_FILE_NAME + criminalRecordRequest.getFileUrl().getFileName();
@@ -50,8 +51,8 @@ public class CriminalRecordService {
                         .build())
                 .build();
 
-        FileManager.base64ToFileAndSaveToDirectory( criminalRecordRequest.getFileUrl().getFrontUrl(), FrontFileName);
-        FileManager.base64ToFileAndSaveToDirectory(criminalRecordRequest.getFileUrl().getBackUrl(), BackFileName);
+        fileManager.base64ToFileAndSaveToDirectory( criminalRecordRequest.getFileUrl().getFrontUrl(), FrontFileName);
+        fileManager.base64ToFileAndSaveToDirectory(criminalRecordRequest.getFileUrl().getBackUrl(), BackFileName);
 
         int result = extractDao.insertCriminalRecordExtract(criminalRecord);
         if(result != 1) throw  new IllegalStateException("oops something wrong");

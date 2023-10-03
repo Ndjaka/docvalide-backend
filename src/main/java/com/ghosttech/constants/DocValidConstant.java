@@ -5,8 +5,8 @@ package com.ghosttech.constants;
 public class DocValidConstant {
     public static final String DOCUMENTS_DIRECTORY = "docs";
     public static final String FILE_DOWNLOAD = "documents";
-    public static final String FRONT_FILE_NAME = "Front-";
-    public static final String BACK_FILE_NAME = "Back-";
+    public static final String FRONT_FILE_NAME = "RECTO-";
+    public static final String BACK_FILE_NAME = "VERSO-";
     public static final String PENDING = "pending";
     public static final String COMPLETED = "completed";
     public static final String CANCELLED = "cancelled";

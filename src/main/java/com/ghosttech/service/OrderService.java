@@ -55,6 +55,8 @@ public class OrderService  {
         int insertOrderId = ordersDao.insertOrder(order);
 
         if (insertOrderId == 1) {
+            log.info("order inserted successfully");
+            log.info("sending notification to admin and user");
             String orderTypeMessage = (orderRequest.getOrderType().equals(DocValidConstant.CRIMINAL_RECORD))
                     ? "vient de faire une demande de casier judiciaire"
                     : "vient de faire une demande de légalisation de document";
@@ -63,20 +65,28 @@ public class OrderService  {
 
             sendAdminNotification(message);
             sendUserNotification(user);
+            log.info("notification sent successfully");
 
         } else {
+            log.error("order not inserted");
             throw new IllegalStateException("Oops, something went wrong");
         }
     }
     private void sendUserNotification(User user) {
-        String confirmationMessage = "Votre demande a été bien reçue. Vous serez contacté dans les plus brefs délais.";
+
+        log.info("sending notification to user");
+
+        String confirmationMessage = "Votre demande a été bien reçue. Il ne vous reste plus qu'à finaliser votre paiement pour qu'elle puisse être traitée." +
+                                     "Une fois le traitement terminé, nous vous contacterons dans un délai de 48 heures.";
 
         String emailBody = "Bonjour " + user.getFirstname() + " " + user.getLastname() + ",\n\n" +
                            confirmationMessage + "\n\n" +
                            "Cordialement,\n" +
-                           "L'équipe DocValide";
-
-        if (!environmentService.getActiveEnvironment().equals("local")) {
+                           "L'équipe DocValide\n" +
+                           "Tel :" + MessageConstant.PHONE_STR_ADMIN + "\n" +
+                           "https://docvalide.com";
+/*
+     //   if (!environmentService.getActiveEnvironment().equals("local")) {
             MessageRequest messageRequestToUser = MessageRequest.builder()
                     .user_id(MessageConstant.USER_ID)
                     .password(MessageConstant.PASSWORD_ADMIN)
@@ -97,12 +107,13 @@ public class OrderService  {
                 emailService.sendMail(null, MessageConstant.EMAIL_ADMIN, MessageConstant.cc, "Demande Non Reçue par l'utilisateur", errorMessage);
                 log.error("Message not sent to user");
             }
-        }
+      //  }*/
         emailService.sendMail(null,user.getEmail(),null, "Demande reçue", emailBody);
 
     }
 
     private void sendAdminNotification(String message) {
+        log.info("sending notification to admin");
         MessageRequest messageRequestToAdmin = MessageRequest.builder()
                 .user_id(MessageConstant.USER_ID)
                 .password(MessageConstant.PASSWORD_ADMIN)
@@ -110,8 +121,8 @@ public class OrderService  {
                 .sender_name(MessageConstant.SENDER_NAME)
                 .message(message)
                 .build();
-
-        if (!environmentService.getActiveEnvironment().equals("local")) {
+/*
+      if (!environmentService.getActiveEnvironment().equals("local")) {
             MessageResponse messageResponseToAdmin = messageService.sendMessage(messageRequestToAdmin);
 
             String adminErrorMessage = "L'administrateur n'a pas reçu le message de confirmation. Veuillez le/la contacter au numéro suivant : " +
@@ -125,7 +136,7 @@ public class OrderService  {
                 emailService.sendMail(null, MessageConstant.EMAIL_ADMIN, MessageConstant.cc, "Demande Non Reçue par l'administrateur", adminErrorMessage);
                 log.error("Message not sent to admin");
             }
-        }
+      }*/
 
         emailService.sendMail(null, MessageConstant.EMAIL_ADMIN, MessageConstant.cc, "Nouvelle demande", message);
     }

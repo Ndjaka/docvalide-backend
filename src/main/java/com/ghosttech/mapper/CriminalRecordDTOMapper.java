@@ -4,10 +4,12 @@ package com.ghosttech.mapper;
 import com.ghosttech.dto.CriminalRecordExtractResponse;
 import com.ghosttech.model.CriminalRecordExtract;
 import com.ghosttech.utils.FileManager;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 @Service
+@AllArgsConstructor
 public class CriminalRecordDTOMapper implements Function<CriminalRecordExtract, CriminalRecordExtractResponse> {
 
     @Override

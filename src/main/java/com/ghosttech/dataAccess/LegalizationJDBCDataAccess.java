@@ -73,7 +73,7 @@ public class LegalizationJDBCDataAccess
                                INNER JOIN users u ON u.id = o.user_id
                                INNER JOIN legalization l ON u.id = l.user_id
                       WHERE o.ordertype = ?
-                      ORDER BY l.id, o.order_date;
+                      ORDER BY l.id, o.order_date DESC;
                     """;
 
             return jdbcTemplate.query(sql, new LegalizationRowMapper(), DocValidConstant.LEGALIZATION);
