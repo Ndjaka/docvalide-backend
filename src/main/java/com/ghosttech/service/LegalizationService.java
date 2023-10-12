@@ -69,8 +69,8 @@ public class LegalizationService {
         log.info("create legalization is done....");
     }
 
-    public List<LegalizationOrderManager> getLegalizationOrdersWithUserAndDetailsOrderedByDate() {
-        return legalizationDao.selectLegalizationOrdersWithUserAndDetailsOrderedByDate();
+    public List<LegalizationOrderManager> getLegalizationOrdersWithUserAndDetailsOrderedByDate(String firstName) {
+        return legalizationDao.selectLegalizationOrdersWithUserAndDetailsOrderedByDate(firstName);
     }
 
     public List<LegalizationDoc> getLegalizationDocsByLegalizationId(UUID legalizationId) {

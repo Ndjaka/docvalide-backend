@@ -9,5 +9,5 @@ import java.util.List;
 public interface CriminalRecordExtractDao {
     int insertCriminalRecordExtract(CriminalRecordExtract recordExtract);
 
-    List<CriminalRecordExtractManager>  selectCriminalRecordExtractByOrdersAndUser();
+    List<CriminalRecordExtractManager>  selectCriminalRecordExtractByOrdersAndUser(String firstName);
 }

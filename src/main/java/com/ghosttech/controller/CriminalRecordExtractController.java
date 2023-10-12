@@ -31,8 +31,8 @@ public class CriminalRecordExtractController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CriminalRecordExtractManager>> listCriminalRecordExtractByOrdersAndUser(){
-        var criminalRecord = criminalRecordService.getCriminalRecordExtractByOrdersAndUser();
+    public ResponseEntity<List<CriminalRecordExtractManager>> listCriminalRecordExtractByOrdersAndUser(@RequestParam("firstName") String firstName){
+        var criminalRecord = criminalRecordService.getCriminalRecordExtractByOrdersAndUser(firstName);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(criminalRecord);

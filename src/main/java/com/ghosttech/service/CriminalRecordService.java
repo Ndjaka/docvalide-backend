@@ -63,7 +63,7 @@ public class CriminalRecordService {
     }
 
 
-    public List<CriminalRecordExtractManager>  getCriminalRecordExtractByOrdersAndUser() {
-        return extractDao.selectCriminalRecordExtractByOrdersAndUser();
+    public List<CriminalRecordExtractManager>  getCriminalRecordExtractByOrdersAndUser(String firstName) {
+        return extractDao.selectCriminalRecordExtractByOrdersAndUser(firstName);
     }
 }

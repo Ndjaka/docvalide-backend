@@ -30,8 +30,8 @@ public class LegalizationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LegalizationOrderManager>>  listLegalizationOrdersWithUserAndDetailsOrderedByDate(){
-        var legalization = legalizationService.getLegalizationOrdersWithUserAndDetailsOrderedByDate();
+    public ResponseEntity<List<LegalizationOrderManager>>  listLegalizationOrdersWithUserAndDetailsOrderedByDate(@RequestParam("firstName") String firstName){
+        var legalization = legalizationService.getLegalizationOrdersWithUserAndDetailsOrderedByDate(firstName);
         return ResponseEntity.status(HttpStatus.OK).body(legalization);
     }
 

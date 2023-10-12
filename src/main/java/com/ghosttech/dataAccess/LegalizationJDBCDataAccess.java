@@ -47,35 +47,36 @@ public class LegalizationJDBCDataAccess
     }
 
     @Override
-    public List<LegalizationOrderManager> selectLegalizationOrdersWithUserAndDetailsOrderedByDate() {
+    public List<LegalizationOrderManager> selectLegalizationOrdersWithUserAndDetailsOrderedByDate(String firstName) {
 
       String sql = """
-                     SELECT DISTINCT ON (l.id)
-                          o.id as orderId,
-                          o.order_date as orderDate,
-                          o.order_status,
-                          o.order_amount,
-                          o.order_number,
-                          u.id as userId,
-                          u.firstname,
-                          u.lastname,
-                          u.phone_number,
-                          u.email,
-                          u.town_of_residence,
-                          u.is_active,
-                          l.id as legalizationId,
-                          l.motif,
-                          l.receip_moment,
-                          l.islegalized,
-                          l.quantity,
-                          l.date as legalizationDate
-                      FROM orders o
-                               INNER JOIN users u ON u.id = o.user_id
-                               INNER JOIN legalization l ON u.id = l.user_id
-                      WHERE o.ordertype = ?
-                      ORDER BY l.id, o.order_date DESC;
+                     SELECT
+                              o.id as orderId,
+                              o.order_date as orderDate, -- Extraction de la date uniquement
+                              o.order_status,
+                              o.order_amount,
+                              o.order_number,
+                              u.id as userId,
+                              u.firstname,
+                              u.lastname,
+                              u.phone_number,
+                              u.email,
+                              u.town_of_residence,
+                              u.is_active,
+                              l.id as legalizationId,
+                              l.motif,
+                              l.receip_moment,
+                              l.islegalized,
+                              l.quantity,
+                              l.date as legalizationDate
+                          FROM orders o
+                          INNER JOIN users u ON u.id = o.user_id
+                          INNER JOIN legalization l ON u.id = l.user_id
+                          WHERE o.ordertype = ?
+                          AND u.firstname LIKE ?
+                          ORDER BY  l.date;
                     """;
 
-            return jdbcTemplate.query(sql, new LegalizationRowMapper(), DocValidConstant.LEGALIZATION);
+            return jdbcTemplate.query(sql, new LegalizationRowMapper(), DocValidConstant.LEGALIZATION, "%" + firstName+ "%");
     }
 }

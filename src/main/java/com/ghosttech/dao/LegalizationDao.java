@@ -8,5 +8,5 @@ import java.util.List;
 public interface LegalizationDao {
     int insertLegalization(Legalization legalization);
 
-    List<LegalizationOrderManager> selectLegalizationOrdersWithUserAndDetailsOrderedByDate();
+    List<LegalizationOrderManager> selectLegalizationOrdersWithUserAndDetailsOrderedByDate(String firstName);
 }
