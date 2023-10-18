@@ -15,7 +15,7 @@ import java.util.UUID;
 public class LegalizationDocJDBCDataAccess
         implements LegalizationDocDao {
 
-    JdbcTemplate jdbcTemplate;
+  private final  JdbcTemplate jdbcTemplate;
 
     @Override
     public int insertLegalizationDoc(LegalizationDoc legalizationDoc) {

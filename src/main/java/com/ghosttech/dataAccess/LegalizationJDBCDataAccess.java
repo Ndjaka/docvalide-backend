@@ -74,7 +74,7 @@ public class LegalizationJDBCDataAccess
                           INNER JOIN legalization l ON u.id = l.user_id
                           WHERE o.ordertype = ?
                           AND u.firstname LIKE ?
-                          ORDER BY  l.date;
+                          ORDER BY  l.date DESC, u.firstname ;
                     """;
 
             return jdbcTemplate.query(sql, new LegalizationRowMapper(), DocValidConstant.LEGALIZATION, "%" + firstName+ "%");

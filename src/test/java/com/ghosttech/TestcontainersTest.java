@@ -8,8 +8,8 @@ public class TestcontainersTest extends AbstractTestcontainers {
 
     @Test
     void canStartPostgresDB() {
-    //    assertThat(postgreSQLContainer.isRunning()).isTrue();
-   //     assertThat(postgreSQLContainer.isCreated()).isTrue();
+     assertThat(postgreSQLContainer.isRunning()).isTrue();
+     assertThat(postgreSQLContainer.isCreated()).isTrue();
     }
 
 }

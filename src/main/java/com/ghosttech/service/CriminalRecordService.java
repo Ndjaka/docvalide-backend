@@ -5,7 +5,6 @@ import com.ghosttech.dao.CriminalRecordExtractDao;
 import com.ghosttech.dto.CriminalRecordExtractRequest;
 import com.ghosttech.dto.CriminalRecordExtractResponse;
 import com.ghosttech.mapper.CriminalRecordDTOMapper;
-import com.ghosttech.mapper.rowMapper.CriminalRecordRowMapper;
 import com.ghosttech.model.CriminalRecordExtract;
 import com.ghosttech.model.CriminalRecordExtractManager;
 import com.ghosttech.model.FileUrls;
@@ -32,7 +31,7 @@ public class CriminalRecordService {
      * @return CriminalRecordExtractResponse - response who is returning of the client to confirm creating data in database
      */
     public CriminalRecordExtractResponse addCriminalRecord(CriminalRecordExtractRequest criminalRecordRequest)  {
-        FileManager fileManager = new FileManager();
+
         log.info("start creating criminal record...");
 
         String FrontFileName = DocValidConstant.FRONT_FILE_NAME + criminalRecordRequest.getFileUrl().getFileName();
@@ -51,8 +50,8 @@ public class CriminalRecordService {
                         .build())
                 .build();
 
-        fileManager.base64ToFileAndSaveToDirectory( criminalRecordRequest.getFileUrl().getFrontUrl(), FrontFileName);
-        fileManager.base64ToFileAndSaveToDirectory(criminalRecordRequest.getFileUrl().getBackUrl(), BackFileName);
+        FileManager.base64ToFileAndSaveToDirectory( criminalRecordRequest.getFileUrl().getFrontUrl(), FrontFileName);
+        FileManager.base64ToFileAndSaveToDirectory(criminalRecordRequest.getFileUrl().getBackUrl(), BackFileName);
 
         int result = extractDao.insertCriminalRecordExtract(criminalRecord);
         if(result != 1) throw  new IllegalStateException("oops something wrong");
