@@ -18,7 +18,8 @@ public class FeeCriminalRecordMapper  implements RowMapper<FeeCriminalRecord> {
                 rs.getObject("id", java.util.UUID.class),
                 rs.getString("residence"),
                 rs.getString("tribunal"),
-                rs.getInt("fees")
+                rs.getInt("fees"),
+                rs.getBoolean("status")
 
         );
     }

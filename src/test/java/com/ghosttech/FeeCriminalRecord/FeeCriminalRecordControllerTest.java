@@ -39,7 +39,8 @@ class FeeCriminalRecordControllerTest extends AbstractTestWebLayers {
                 null,
                 feeCriminalRecordRequest.getResidence(),
                 feeCriminalRecordRequest.getTribunal(),
-                feeCriminalRecordRequest.getFees()
+                feeCriminalRecordRequest.getFees(),
+                false
         );
 
         when(underTest.saveFeeCriminalRecord(feeCriminalRecordRequest))

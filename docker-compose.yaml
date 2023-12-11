@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres:
     container_name: postgres
-    image: postgres
+    image: postgres:14
     environment:
       POSTGRES_DB: docvalide
       POSTGRES_USER: ghosttech
@@ -39,6 +39,19 @@ services:
       - "1080:1080"
       - "1025:1025"
     networks:
+      - postgres
+    restart: unless-stopped
+
+  app:
+    container_name: app
+    image: ndjaka/docvalide-backend-api
+    environment:
+      SPRING_ACTIVE_PROFILES: "local" # Changez ceci en fonction de votre profil
+    ports:
+      - "8081:8080" # Port 8081 pour le profil local
+    networks:
+      - postgres
+    depends_on:
       - postgres
     restart: unless-stopped
 

@@ -15,4 +15,5 @@ public class FeeCriminalRecord {
     private String residence;
     private String tribunal;
     private Integer fees;
+    private Boolean status;
 }

@@ -2,6 +2,7 @@ package com.ghosttech.controller;
 
 import com.ghosttech.dto.FeeCriminalRecordRequest;
 import com.ghosttech.model.FeeCriminalRecord;
+import com.ghosttech.model.PaginationResult;
 import com.ghosttech.service.FeeCriminalRecordService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +34,19 @@ public class FeeCriminalRecordController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FeeCriminalRecord>> listFeeCriminalRecordByCityAndTribunal(
-            @RequestParam(name = "city", value = "") String city,
-             @RequestParam(name = "tribunal", value = "") String tribunal
+    public ResponseEntity<PaginationResult<FeeCriminalRecord>> listFeeCriminalRecordByCityAndTribunal(
+            @RequestParam(name = "city", defaultValue = "",required = false) String city,
+            @RequestParam(name = "tribunal", defaultValue = "",required = false) String tribunal,
+            @RequestParam(name = "resultsPerPage", defaultValue = "10") int resultsPerPage,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ){
-        var  recordList = feeCriminalRecordService.getListFeeCriminalRecordByCityAndTribunal(city, tribunal);
+        var  recordList = feeCriminalRecordService.selectFeeCriminalRecordByCityAndTribunalWithPagination(city, tribunal , resultsPerPage, page);
         return ResponseEntity.status(HttpStatus.OK).body(recordList);
+    }
+
+    @PutMapping("/{id}/{status}")
+    public ResponseEntity<FeeCriminalRecord> updateFeeCriminalRecordStatus(@PathVariable("id") UUID id , @PathVariable("status") boolean status){
+        var feeCriminalRecord = feeCriminalRecordService.updateFeeCriminalRecordStatus(status,id);
+        return ResponseEntity.status(HttpStatus.OK).body(feeCriminalRecord);
     }
 }

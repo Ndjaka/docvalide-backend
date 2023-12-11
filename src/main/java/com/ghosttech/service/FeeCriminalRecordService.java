@@ -5,6 +5,7 @@ import com.ghosttech.dto.FeeCriminalRecordRequest;
 import com.ghosttech.exception.NotFoundException;
 import com.ghosttech.exception.RequestValidationException;
 import com.ghosttech.model.FeeCriminalRecord;
+import com.ghosttech.model.PaginationResult;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class FeeCriminalRecordService {
                 .residence(feeCriminalRecordRequest.getResidence())
                 .tribunal(feeCriminalRecordRequest.getTribunal())
                 .fees(feeCriminalRecordRequest.getFees())
+                .status(false)
                 .build();
 
 
@@ -55,6 +57,8 @@ public class FeeCriminalRecordService {
             changes = true;
         }
 
+
+
         if(!changes){
             throw new RequestValidationException("No changes were made","NO_CHANGES_MADE");
         }
@@ -71,7 +75,24 @@ public class FeeCriminalRecordService {
                 .orElseThrow(() -> new NotFoundException("Fee Criminal Record with id " + id + " does not exist","FEES_CRIMINAL_RECORD_NOT_FOUND"));
     }
 
-    public List<FeeCriminalRecord> getListFeeCriminalRecordByCityAndTribunal(String city, String tribunal){
-        return feeCriminalRecordDao.selectFeeCriminalRecordByCityAndTribunal(city, tribunal);
+    public PaginationResult<FeeCriminalRecord> selectFeeCriminalRecordByCityAndTribunalWithPagination(String city, String tribunal , Integer resultPerPage , Integer page){
+        return feeCriminalRecordDao.selectFeeCriminalRecordByCityAndTribunalWithPagination(city, tribunal, resultPerPage, page);
     }
+
+    public FeeCriminalRecord updateFeeCriminalRecordStatus(boolean status,  UUID id){
+
+        FeeCriminalRecord feeCriminalRecord  =  feeCriminalRecordDao.selectFeeCriminalRecordById(id)
+                .orElseThrow(() -> new NotFoundException("Fee Criminal Record with id " + id + " does not exist","FEES_CRIMINAL_RECORD_NOT_FOUND"));
+
+        if(feeCriminalRecord.getStatus() != status){
+            feeCriminalRecordDao.updateFeeCriminalRecordStatus(status,id);
+            feeCriminalRecord.setStatus(status);
+        }else{
+            throw new RequestValidationException("No update were made","NO_CHANGES_MADE");
+        }
+
+        return feeCriminalRecord;
+    }
+
+
 }

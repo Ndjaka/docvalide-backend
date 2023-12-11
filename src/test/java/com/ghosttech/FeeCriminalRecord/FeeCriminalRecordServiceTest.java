@@ -42,7 +42,8 @@ public class FeeCriminalRecordServiceTest {
                 UUID.randomUUID(),
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
@@ -78,7 +79,8 @@ public class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
@@ -114,7 +116,8 @@ public class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
@@ -149,7 +152,8 @@ public class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         when(feeCriminalRecordDao.selectFeeCriminalRecordById(id)).thenReturn(Optional.of(feeCriminalRecord));
@@ -165,10 +169,10 @@ public class FeeCriminalRecordServiceTest {
     void canGetAllFeeCriminalRecord(){
 
         // when
-         underTest.getListFeeCriminalRecordByCityAndTribunal(",","");
+         underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination(",","",1,10);
 
         // then
-       verify(feeCriminalRecordDao).selectFeeCriminalRecordByCityAndTribunal(",","");
+       verify(feeCriminalRecordDao).selectFeeCriminalRecordByCityAndTribunalWithPagination(",","",1,10);
     }
 
     @Test
@@ -181,7 +185,8 @@ public class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
@@ -198,6 +203,58 @@ public class FeeCriminalRecordServiceTest {
 
         // then
         verify(feeCriminalRecordDao, never()).updateFeeCriminalRecord(any());
+    }
+
+    @Test
+    void canUpdateFeeCriminalRecordStatus(){
+       //given
+        UUID randomUUID = UUID.randomUUID();
+        FeeCriminalRecord feeCriminalRecord = new FeeCriminalRecord(
+                randomUUID,
+                "édea",
+                "Nyong et Mfoumou",
+                8500,
+                false
+        );
+
+        //doNothing().when(feeCriminalRecordDao.insertFeeCriminalRecord(feeCriminalRecord));
+
+        lenient().doNothing().when(feeCriminalRecordDao).insertFeeCriminalRecord(feeCriminalRecord);
+
+        when(feeCriminalRecordDao.selectFeeCriminalRecordById(randomUUID)).thenReturn(Optional.of(feeCriminalRecord));
+
+        //when
+        FeeCriminalRecord feeCriminalRecordUpdated = underTest.updateFeeCriminalRecordStatus(!feeCriminalRecord.getStatus(),randomUUID);
+
+
+        //then
+        assertThat(feeCriminalRecordUpdated.getStatus()).isTrue();
+
+
+    }
+
+    @Test
+    void willThrowWhenStatusHasNoChange(){
+        //given
+        UUID randomUUID = UUID.randomUUID();
+        FeeCriminalRecord feeCriminalRecord = new FeeCriminalRecord(
+                randomUUID,
+                "édea",
+                "Nyong et Mfoumou",
+                8500,
+                true
+        );
+
+        when(feeCriminalRecordDao.selectFeeCriminalRecordById(randomUUID)).thenReturn(Optional.of(feeCriminalRecord));
+
+
+        // when
+        assertThatThrownBy(() -> underTest.updateFeeCriminalRecordStatus(feeCriminalRecord.getStatus(),randomUUID))
+                .isInstanceOf(RequestValidationException.class)
+                .hasMessageContaining("No update were made");
+
+        // then
+        verify(feeCriminalRecordDao, never()).updateFeeCriminalRecordStatus(anyBoolean(),any());
     }
 }
 

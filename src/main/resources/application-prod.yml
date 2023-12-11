@@ -31,3 +31,9 @@ server:
     include-binding-errors: always
     include-message: always
   port: 8082
+
+sentry:
+  dsn: https://6e8deabe5d97489bba3b21c763c23ebd@o450724.ingest.sentry.io/4506366821990400
+  tracesSampleRate: 1.0
+  exception-resolver-order: -2147483647
+  environment: prod

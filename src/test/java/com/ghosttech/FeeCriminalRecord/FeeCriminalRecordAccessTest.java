@@ -4,6 +4,7 @@ import com.ghosttech.AbstractTestcontainers;
 import com.ghosttech.dataAccess.FeeCriminalRecordAccess;
 import com.ghosttech.mapper.rowMapper.FeeCriminalRecordMapper;
 import com.ghosttech.model.FeeCriminalRecord;
+import com.ghosttech.model.PaginationResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,16 +31,17 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
                 java.util.UUID.randomUUID(),
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
         // when
-        List<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunal("","");
+        PaginationResult<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1);
 
         // then
-        assertThat(feeCriminalRecords).isNotEmpty();
+        assertThat(feeCriminalRecords.getResults()).isNotEmpty();
     }
 
     @Test
@@ -49,15 +51,15 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
                 java.util.UUID.randomUUID(),
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500, false
         );
 
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
         // when
-        List<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunal("édea","Nyong et Mfoumou");
+        PaginationResult<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1);
 
-        FeeCriminalRecord feeCriminalRecord1 =  feeCriminalRecords.stream()
+        FeeCriminalRecord feeCriminalRecord1 =  feeCriminalRecords.getResults().stream()
                 .filter(feeCriminalRecord2 -> feeCriminalRecord2.getId().equals(feeCriminalRecord.getId())).findFirst()
                 .stream().findFirst().orElse(null);
 
@@ -75,7 +77,8 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
                 randomUUID,
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         // when
@@ -100,15 +103,17 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
                 randomUUID,
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
-        UUID id = underTest.selectFeeCriminalRecordByCityAndTribunal("","")
+        UUID id = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1)
+                .getResults()
                 .stream()
-                .filter(feeCriminalRecord1Id -> feeCriminalRecord1Id.getId().equals(randomUUID))
                 .map(FeeCriminalRecord::getId)
+                .filter(feeCriminalRecord1IdId -> feeCriminalRecord1IdId.equals(randomUUID))
                 .findFirst()
                 .orElseThrow();
 
@@ -140,15 +145,18 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
                 randomUUID,
                 "édea",
                 "Nyong et Mfoumou",
-                8500
+                8500,
+                false
         );
 
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
-        UUID id = underTest.selectFeeCriminalRecordByCityAndTribunal("","")
+        UUID id = underTest
+                .selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1)
+                .getResults()
                 .stream()
-                .filter(feeCriminalRecord1Id -> feeCriminalRecord1Id.getId().equals(randomUUID))
                 .map(FeeCriminalRecord::getId)
+                .filter(feeCriminalRecord1IdId -> feeCriminalRecord1IdId.equals(randomUUID))
                 .findFirst()
                 .orElseThrow();
 
@@ -162,6 +170,33 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
             assertThat(feeCriminalRecord1.getTribunal()).isEqualTo(feeCriminalRecord.getTribunal());
             assertThat(feeCriminalRecord1.getFees()).isEqualTo(feeCriminalRecord.getFees());
         });
+    }
+
+    @Test
+    void itShouldUpdateFeeCriminalRecordStatus(){
+        //given
+        UUID randomUUID = UUID.randomUUID();
+        FeeCriminalRecord feeCriminalRecord = new FeeCriminalRecord(
+                randomUUID,
+                "édea",
+                "Nyong et Mfoumou",
+                8500,
+                true
+        );
+        underTest.insertFeeCriminalRecord(feeCriminalRecord);
+
+        //when
+        underTest.updateFeeCriminalRecordStatus(!feeCriminalRecord.getStatus(),feeCriminalRecord.getId());
+
+        // then
+
+        Optional<FeeCriminalRecord> actual =  underTest.selectFeeCriminalRecordById(randomUUID);
+
+        assertThat(actual).isPresent().hasValueSatisfying(feeCriminalRecord1 -> {
+            assertThat(feeCriminalRecord1.getId()).isEqualTo(randomUUID);
+            assertThat(feeCriminalRecord1.getStatus()).isFalse();
+        });
+
     }
 }
 

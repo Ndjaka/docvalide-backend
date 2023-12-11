@@ -18,7 +18,7 @@ public class UserRequest {
     private String password;
     @NotBlank(message = "Phone number cannot be blank")
     private String phoneNumber;
-    @NotBlank(message = "Town of residence cannot be blank")
+  //  @NotBlank(message = "Town of residence cannot be blank")
     private String townOfResidence;
 
     private String roles;
