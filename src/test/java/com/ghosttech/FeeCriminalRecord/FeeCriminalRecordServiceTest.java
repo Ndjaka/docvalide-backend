@@ -20,7 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class FeeCriminalRecordServiceTest {
+class FeeCriminalRecordServiceTest {
 
     @Mock
     private  FeeCriminalRecordDao feeCriminalRecordDao;
@@ -169,10 +169,20 @@ public class FeeCriminalRecordServiceTest {
     void canGetAllFeeCriminalRecord(){
 
         // when
-         underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination(",","",1,10);
+         underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination(",","",1,10,true);
 
         // then
-       verify(feeCriminalRecordDao).selectFeeCriminalRecordByCityAndTribunalWithPagination(",","",1,10);
+       verify(feeCriminalRecordDao).selectFeeCriminalRecordByCityAndTribunalWithPagination(",","",1,10,true);
+    }
+
+    @Test
+    void canGetAllFeeCriminalRecordWithOutLimit(){
+
+        // when
+        underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou",1,10,false);
+
+        // then
+        verify(feeCriminalRecordDao).selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou",1,10,false);
     }
 
     @Test

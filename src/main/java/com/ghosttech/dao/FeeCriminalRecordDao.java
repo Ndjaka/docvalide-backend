@@ -1,11 +1,6 @@
 package com.ghosttech.dao;
-
-
-import com.ghosttech.dto.FeeCriminalRecordRequest;
 import com.ghosttech.model.FeeCriminalRecord;
 import com.ghosttech.model.PaginationResult;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,7 +9,7 @@ public interface FeeCriminalRecordDao {
 
     void updateFeeCriminalRecord(FeeCriminalRecord feeCriminalRecord);
 
-    PaginationResult<FeeCriminalRecord> selectFeeCriminalRecordByCityAndTribunalWithPagination(String city, String tribunal, int resultsPerPage, int page);
+    PaginationResult<FeeCriminalRecord> selectFeeCriminalRecordByCityAndTribunalWithPagination(String city, String tribunal, int resultsPerPage, int page, boolean withLimit);
 
     Optional<FeeCriminalRecord> selectFeeCriminalRecordById(UUID id);
 

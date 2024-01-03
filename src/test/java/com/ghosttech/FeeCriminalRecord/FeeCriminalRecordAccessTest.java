@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
+class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
 
     private FeeCriminalRecordAccess underTest;
     private final FeeCriminalRecordMapper feeCriminalRecordMapper = new FeeCriminalRecordMapper();
@@ -38,7 +38,7 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
         // when
-        PaginationResult<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1);
+        PaginationResult<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1,true);
 
         // then
         assertThat(feeCriminalRecords.getResults()).isNotEmpty();
@@ -57,7 +57,7 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
         // when
-        PaginationResult<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1);
+        PaginationResult<FeeCriminalRecord> feeCriminalRecords = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1,true);
 
         FeeCriminalRecord feeCriminalRecord1 =  feeCriminalRecords.getResults().stream()
                 .filter(feeCriminalRecord2 -> feeCriminalRecord2.getId().equals(feeCriminalRecord.getId())).findFirst()
@@ -109,7 +109,7 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
 
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
-        UUID id = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1)
+        UUID id = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1,true)
                 .getResults()
                 .stream()
                 .map(FeeCriminalRecord::getId)
@@ -152,7 +152,7 @@ public class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
         UUID id = underTest
-                .selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1)
+                .selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1,true)
                 .getResults()
                 .stream()
                 .map(FeeCriminalRecord::getId)
