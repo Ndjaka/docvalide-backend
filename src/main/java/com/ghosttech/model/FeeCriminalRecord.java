@@ -14,6 +14,7 @@ public class FeeCriminalRecord {
     private UUID id;
     private String residence;
     private String tribunal;
+    private String region;
     private Integer fees;
     private Boolean status;
 }

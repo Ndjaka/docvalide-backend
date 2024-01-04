@@ -22,6 +22,7 @@ public class FeeCriminalRecordService {
                 .id(UUID.randomUUID())
                 .residence(feeCriminalRecordRequest.getResidence())
                 .tribunal(feeCriminalRecordRequest.getTribunal())
+                .region(feeCriminalRecordRequest.getRegion())
                 .fees(feeCriminalRecordRequest.getFees())
                 .status(false)
                 .build();
@@ -46,6 +47,11 @@ public class FeeCriminalRecordService {
 
         if(feeCriminalRecordRequest.getTribunal() != null && !feeCriminalRecordRequest.getTribunal().equals(feeCriminalRecord.getTribunal())){
             feeCriminalRecord.setTribunal(feeCriminalRecordRequest.getTribunal());
+            changes = true;
+        }
+
+        if(feeCriminalRecordRequest.getRegion() != null && !feeCriminalRecordRequest.getRegion().equals(feeCriminalRecord.getRegion())){
+            feeCriminalRecord.setRegion(feeCriminalRecordRequest.getRegion());
             changes = true;
         }
 

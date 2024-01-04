@@ -42,6 +42,7 @@ class FeeCriminalRecordServiceTest {
                 UUID.randomUUID(),
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -49,6 +50,7 @@ class FeeCriminalRecordServiceTest {
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
                 feeCriminalRecord.getResidence(),
                 feeCriminalRecord.getTribunal(),
+                feeCriminalRecord.getRegion(),
                 feeCriminalRecord.getFees()
         );
 
@@ -79,12 +81,14 @@ class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
 
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
                 "Yaoundé",
+                null,
                 null,
                 null
         );
@@ -116,6 +120,7 @@ class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -123,6 +128,7 @@ class FeeCriminalRecordServiceTest {
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
                 "Yaoundé",
                 "Mfoundi",
+                "Centre",
                 10000
         );
 
@@ -152,6 +158,7 @@ class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -195,6 +202,7 @@ class FeeCriminalRecordServiceTest {
                 id,
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -202,6 +210,7 @@ class FeeCriminalRecordServiceTest {
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
                 feeCriminalRecord.getResidence(),
                 feeCriminalRecord.getTribunal(),
+                feeCriminalRecord.getRegion(),
                 feeCriminalRecord.getFees());
 
         when(feeCriminalRecordDao.selectFeeCriminalRecordById(id)).thenReturn(Optional.of(feeCriminalRecord));
@@ -223,6 +232,7 @@ class FeeCriminalRecordServiceTest {
                 randomUUID,
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -251,6 +261,7 @@ class FeeCriminalRecordServiceTest {
                 randomUUID,
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 true
         );

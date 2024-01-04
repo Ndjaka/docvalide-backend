@@ -31,6 +31,7 @@ class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
                 java.util.UUID.randomUUID(),
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -51,6 +52,7 @@ class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
                 java.util.UUID.randomUUID(),
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500, false
         );
 
@@ -75,8 +77,9 @@ class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         UUID randomUUID = UUID.randomUUID();
         FeeCriminalRecord feeCriminalRecord = new FeeCriminalRecord(
                 randomUUID,
-                "édea",
+                "Édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -101,15 +104,16 @@ class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         UUID randomUUID = UUID.randomUUID();
         FeeCriminalRecord feeCriminalRecord = new FeeCriminalRecord(
                 randomUUID,
-                "édea",
+                "Édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
 
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
-        UUID id = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1,true)
+        UUID id = underTest.selectFeeCriminalRecordByCityAndTribunalWithPagination("Édea","Nyong et Mfoumou", 10, 1,true)
                 .getResults()
                 .stream()
                 .map(FeeCriminalRecord::getId)
@@ -143,8 +147,9 @@ class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         UUID randomUUID = UUID.randomUUID();
         FeeCriminalRecord feeCriminalRecord = new FeeCriminalRecord(
                 randomUUID,
-                "édea",
+                "Édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 false
         );
@@ -152,7 +157,7 @@ class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         underTest.insertFeeCriminalRecord(feeCriminalRecord);
 
         UUID id = underTest
-                .selectFeeCriminalRecordByCityAndTribunalWithPagination("édea","Nyong et Mfoumou", 10, 1,true)
+                .selectFeeCriminalRecordByCityAndTribunalWithPagination("Édea","Nyong et Mfoumou", 10, 1,true)
                 .getResults()
                 .stream()
                 .map(FeeCriminalRecord::getId)
@@ -178,8 +183,9 @@ class FeeCriminalRecordAccessTest  extends AbstractTestcontainers {
         UUID randomUUID = UUID.randomUUID();
         FeeCriminalRecord feeCriminalRecord = new FeeCriminalRecord(
                 randomUUID,
-                "édea",
+                "Édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500,
                 true
         );

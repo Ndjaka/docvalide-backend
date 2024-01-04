@@ -82,7 +82,12 @@ public class FeeCriminalRecordAccess implements FeeCriminalRecordDao {
 
         String sql = """
                 SELECT
-                *
+                    id,
+                    initcap(residence) AS residence,
+                    tribunal,
+                    fees,
+                    status,
+                    region
                 FROM fees_criminal_record
                 WHERE residence LIKE ? AND tribunal LIKE ?
                 ORDER BY residence ASC, tribunal ASC

@@ -32,6 +32,7 @@ class FeeCriminalRecordControllerTest extends AbstractTestWebLayers {
         FeeCriminalRecordRequest feeCriminalRecordRequest = new FeeCriminalRecordRequest(
                 "édea",
                 "Nyong et Mfoumou",
+                "Littoral",
                 8500
         );
 
@@ -39,6 +40,7 @@ class FeeCriminalRecordControllerTest extends AbstractTestWebLayers {
                 null,
                 feeCriminalRecordRequest.getResidence(),
                 feeCriminalRecordRequest.getTribunal(),
+                feeCriminalRecordRequest.getRegion(),
                 feeCriminalRecordRequest.getFees(),
                 false
         );

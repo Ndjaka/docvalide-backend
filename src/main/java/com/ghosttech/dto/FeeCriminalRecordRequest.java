@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class FeeCriminalRecordRequest {
     public String residence;
     public String tribunal;
+    public String region;
     public Integer fees;
 
 }
