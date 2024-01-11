@@ -2,7 +2,7 @@ app:
   datasource:
     driver-class-name: org.postgresql.Driver
     jdbc-url: jdbc:postgresql://localhost:5433/docvalide
-    maximum-pool-size: 30
+    maximum-pool-size: 3
     password: password
     username: ghosttech
 
@@ -24,6 +24,7 @@ spring:
             enable: false
             required: false
           auth: false
+
 
 sentry:
   dsn: https://6e8deabe5d97489bba3b21c763c23ebd@o450724.ingest.sentry.io/4506366821990400

@@ -42,18 +42,21 @@ services:
       - postgres
     restart: unless-stopped
 
-  app:
-    container_name: app
-    image: ndjaka/docvalide-backend-api
-    environment:
-      SPRING_ACTIVE_PROFILES: "local" # Changez ceci en fonction de votre profil
-    ports:
-      - "8081:8080" # Port 8081 pour le profil local
-    networks:
-      - postgres
-    depends_on:
-      - postgres
-    restart: unless-stopped
+#  app:
+#    container_name: app
+#  #  image: ndjaka/docvalide-backend-api
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    environment:
+#      SPRING_ACTIVE_PROFILES: "local" # Changez ceci en fonction de votre profil
+#    ports:
+#      - "8081:8080" # Port 8081 pour le profil local
+#    networks:
+#      - postgres
+#    depends_on:
+#      - postgres
+#    restart: unless-stopped
 
 networks:
   postgres:
